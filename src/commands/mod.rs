@@ -6,3 +6,5 @@ pub trait Command {
 pub mod add_command;
 // List command
 pub mod list_command;
+// Remove command
+pub mod remove_command;

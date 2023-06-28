@@ -16,9 +16,13 @@ impl ListCommand {
 
 impl Command for ListCommand {
     fn handle(&self) -> i32 {
-        let contents = fs::read_to_string("storage.txt")
+        let contents = fs::read_to_string("storage.json")
             .expect("Something went wrong reading the file");
-        println!("{contents}");
+        let parsed_contents = json::parse(&contents).unwrap();
+
+        for (index, item) in parsed_contents.members().enumerate() {
+            println!("{} - {}", index + 1, item["description"]);
+        }
         0
     }
 }

@@ -3,8 +3,9 @@ use std::process;
 
 mod commands;
 use commands::Command;
-use commands::add_command::AddCommand;
-use commands::list_command::ListCommand;
+use crate::commands::add_command::AddCommand;
+use crate::commands::list_command::ListCommand;
+use crate::commands::remove_command::RemoveCommand;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -17,6 +18,7 @@ fn main() {
     let exit_code = match command.as_str() {
         "add" => AddCommand::new(args).handle(),
         "list" => ListCommand::new().handle(),
+        "remove" => RemoveCommand::new(args).handle(),
         _ => {
             println!("Unknown Command!");
             0
@@ -31,7 +33,8 @@ fn display_help() {
     println!("Usage: todo <command> <args>");
     println!();
     println!("available commands:");
-    println!("Add - adds a new todo");
-    println!("List - gets the list of items");
+    println!("add - adds a new todo");
+    println!("list - gets the list of items");
+    println!("remove - gets the list of items");
     println!();
 }

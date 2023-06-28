@@ -1,3 +1,5 @@
+use json::object;
+
 use super::Command;
 use std::fs;
 use std::io::Write;
@@ -21,12 +23,22 @@ impl Command for AddCommand {
         if let Some(description) = description_option {
             let mut file = fs::OpenOptions::new()
                 .write(true)
-                .append(true)
-                .open("storage.txt")
+                .append(false)
+                .open("storage.json")
                 .expect("File not found");
                 // .exce/pt("File not found");
 
-            writeln!(file, "{}", description)
+            let data = object!{
+                description: description.as_str(),
+            };
+
+            let contents = fs::read_to_string("storage.json")
+                .expect("Something went wrong reading the file");
+            let mut parsed_contents = json::parse(&contents).unwrap();
+
+            parsed_contents.push(data).unwrap();
+
+            writeln!(file, "{}", parsed_contents.dump())
                 .expect("File write failed");
 
             println!("todo added!");
