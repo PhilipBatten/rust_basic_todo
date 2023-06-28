@@ -5,4 +5,4 @@
 - list
 - remove \<index>
 
-Uses json as storage
+Uses sqlite as storage
