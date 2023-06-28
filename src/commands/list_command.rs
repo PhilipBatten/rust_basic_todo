@@ -1,6 +1,5 @@
-use std::fs;
-
 use super::Command;
+use crate::database;
 
 pub struct ListCommand {
     
@@ -16,12 +15,9 @@ impl ListCommand {
 
 impl Command for ListCommand {
     fn handle(&self) -> i32 {
-        let contents = fs::read_to_string("storage.json")
-            .expect("Something went wrong reading the file");
-        let parsed_contents = json::parse(&contents).unwrap();
-
-        for (index, item) in parsed_contents.members().enumerate() {
-            println!("{} - {}", index + 1, item["description"]);
+        let todos = database::read_todos().unwrap();
+        for (_, todo) in todos.iter().enumerate() {
+            println!("{}. {} {}", todo.id, todo.title, todo.description);
         }
         0
     }

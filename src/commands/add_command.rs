@@ -1,8 +1,5 @@
-use json::object;
-
+use crate::database;
 use super::Command;
-use std::fs;
-use std::io::Write;
 
 pub struct AddCommand {
     args: Vec<String>,
@@ -18,32 +15,20 @@ impl AddCommand {
 
 impl Command for AddCommand {
     fn handle(&self) -> i32 {
-        let description_option = &self.args.get(2);
+        let title_option = &self.args.get(2);
+        let description_option = &self.args.get(3);
 
         if let Some(description) = description_option {
-            let mut file = fs::OpenOptions::new()
-                .write(true)
-                .append(false)
-                .open("storage.json")
-                .expect("File not found");
-                // .exce/pt("File not found");
+            if let Some(title) = title_option {
+                database::add_todo(title.to_string(), description.to_string()).unwrap();
 
-            let data = object!{
-                description: description.as_str(),
-            };
-
-            let contents = fs::read_to_string("storage.json")
-                .expect("Something went wrong reading the file");
-            let mut parsed_contents = json::parse(&contents).unwrap();
-
-            parsed_contents.push(data).unwrap();
-
-            writeln!(file, "{}", parsed_contents.dump())
-                .expect("File write failed");
-
-            println!("todo added!");
-
-            return 0;
+                println!("todo added!");
+    
+                return 0;
+            } else {
+                println!("title is required");
+                return 1;
+            }        
         } else {
             println!("description is required");
             return 1;

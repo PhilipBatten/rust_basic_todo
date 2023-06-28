@@ -1,6 +1,7 @@
 use std::env;
 use std::process;
 
+mod database;
 mod commands;
 use commands::Command;
 use crate::commands::add_command::AddCommand;
@@ -8,6 +9,8 @@ use crate::commands::list_command::ListCommand;
 use crate::commands::remove_command::RemoveCommand;
 
 fn main() {
+    database::db_setup().unwrap();
+
     let args: Vec<String> = env::args().collect();
 
     let command = args.get(1).unwrap_or_else(|| {
