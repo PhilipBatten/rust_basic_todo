@@ -43,7 +43,7 @@ mod tests {
 
     #[test]
     fn add_command() {
-        let command = AddCommand::new(vec!["todo".to_string(), "add".to_string(), "totle".to_string(), "description".to_string()]);
+        let command = AddCommand::new(vec!["todo".to_string(), "add".to_string(), "title".to_string(), "description".to_string()]);
         let exit_code = command.handle();
         assert_eq!(exit_code, 0);
     }

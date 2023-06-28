@@ -60,3 +60,26 @@ pub fn remove_todo_by_id(id: i32) -> Result<()> {
 
     Ok(())
 }
+
+#[cfg(test)] 
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_db_setup() {
+        let result = db_setup();
+        assert!(result == Ok(()));
+    }
+
+    #[test]
+    fn test_add_todo() {
+        let result = add_todo("title".to_string(), "description".to_string());
+        assert!(result == Ok(()));
+    }
+
+    #[test]
+    fn test_remove_todo_by_id() {
+        let result = remove_todo_by_id(1);
+        assert!(result == Ok(()));
+    }
+}

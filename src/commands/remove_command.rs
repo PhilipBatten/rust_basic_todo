@@ -18,3 +18,16 @@ impl Command for RemoveCommand {
         0
     }
 }
+
+
+#[cfg(test)] 
+mod tests {
+    use super::*;
+
+    #[test]
+    fn remove_command() {
+        let command = RemoveCommand::new(vec!["todo".to_string(), "remove".to_string(), "1".to_string()]);
+        let exit_code = command.handle();
+        assert_eq!(exit_code, 0);
+    }
+}
